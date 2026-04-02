@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tela de Pedidos</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .btn-limpar {
+            background: #dc3545;
+            margin-top: 10px;
+        }
+
+        .btn-limpar:hover {
+            background: #c82333;
+        }
+
+        .lista {
+            margin-top: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pedido {
+            background: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 5px solid #28a745;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Cadastro de Pedidos</h1>
+
+    <form id="formPedido">
+        <input type="number" id="numero" placeholder="Número do Pedido">
+        <input type="text" id="produto" placeholder="Produto">
+        <input type="text" id="nome" placeholder="Nome da Pessoa">
+        <input type="text" id="endereco" placeholder="Endereço">
+        <input type="date" id="data">
+        <button type="submit">Cadastrar Pedido</button>
+    </form>
+
+    <div>
+        <button type="button" id="btnLimpar" class="btn-limpar">Apagar Todos os Pedidos</button>
+    </div>
+
+    <div class="lista" id="listaPedidos"></div>
+
+    <script>
+        // Carrega pedidos do localStorage
+
+        //lista de pedidos -- início do script...
+        // ----  window.alert("Lista de pedidos.....");
+
+        let pedidos = JSON.parse(localStorage.getItem("pedidosLocal")) || [];
+
+        const form = document.getElementById("formPedido");
+        const lista = document.getElementById("listaPedidos");
+        const btnLimpar = document.getElementById("btnLimpar");
+
+        // EVENTO DO BOTÃO
+        //Chama o Listener pedidos
+        // ----window.alert("Chama o Listener pedidos.....");
+        btnLimpar.addEventListener("click", limparPedidos);
+
+        // Inicialização
+        //Chamo a função renderizar pedidos
+        // ----window.alert("Chama a função renderizar pedidos.....");
+        renderizarPedidos();
+
+        form.addEventListener("submit", function (event) {
+            //Form Listener....
+            // ----window.alert("Form Listener.....");
+
+            // Prevent Default
+            // ----window.alert("Prevent Default.....");
+            event.preventDefault();
+
+            const numero = document.getElementById("numero").value;
+            const produto = document.getElementById("produto").value;
+            const nome = document.getElementById("nome").value;
+            const endereco = document.getElementById("endereco").value;
+            const data = document.getElementById("data").value;
+
+            if (!validarCampos(numero, produto, nome, endereco, data)) {
+                return;
+            }
+
+            const novoPedido = {
+                numero,
+                produto,
+                nome,
+                endereco,
+                data
+            };
+
+            pedidos.push(novoPedido);
+            salvarLocalStorage();
+            renderizarPedidos();
+
+            form.reset();
+            alert("Pedido cadastrado com sucesso!");
+        });
+
+        // NOVA FUNÇÃO DE LIMPEZA
+        function limparPedidos() {
+            //Função....Limpa Pedidos...
+            // -- -- window.alert("Limpa pedidos.....");
+            const confirmar = confirm("Tem certeza que deseja apagar todos os pedidos?");
+
+            if (!confirmar) {
+                return;
+            }
+
+            pedidos = [];
+            localStorage.removeItem("pedidosLocal");
+            renderizarPedidos();
+
+            alert("Todos os pedidos foram apagados!");
+        }
+        function salvarLocalStorage() {
+            //Salva Pedidos
+            // --window.alert("Função ... Salva de pedidos.....");
+            localStorage.setItem("pedidosLocal", JSON.stringify(pedidos));
+        }
+
+        function validarCampos(numero, produto, nome, endereco, data) {
+            //Valida Pedidos
+            // -- window.alert("Função...Valida campos.....");
+            if (!numero || numero <= 0) {
+                alert("Número do pedido inválido!");
+                return false;
+            }
+
+            if (produto.trim() === "") {
+                alert("Produto é obrigatório!");
+                return false;
+            }
+
+            if (nome.trim() === "") {
+                alert("Nome é obrigatório!");
+                return false;
+            }
+
+            if (endereco.trim() === "") {
+                alert("Endereço é obrigatório!");
+                return false;
+            }
+
+            if (!data) {
+                alert("Data de entrega é obrigatória!");
+                return false;
+            }
+
+            return true;
+        }
+
+        function renderizarPedidos() {
+            //Renderiza Pedidos
+            // -- window.alert("Função...Renderiza pedidos.....");
+
+            lista.innerHTML = "";
+
+            pedidos.forEach(p => {
+                const div = document.createElement("div");
+                div.classList.add("pedidosLocal");
+
+                div.innerHTML = `
+                    <strong>Pedido #${p.numero}</strong><br>
+                    Produto: ${p.produto}<br>
+                    Cliente: ${p.nome}<br>
+                    Endereço: ${p.endereco}<br>
+                    Entrega: ${p.data}
+                `;
+                lista.appendChild(div);
+            });
+        }
+
+
+    </script>
+
+</body>
+
+</html>
