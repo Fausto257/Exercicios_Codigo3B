@@ -1,0 +1,51 @@
+Passos:
+
+
+1 - Criar uma pasta na Area de Trabalho
+=======================================
+
+EX30
+
+Dentro desta página crie a pasta CadastroPessoas
+- copie o arquivo server.js
+- crie uma nova pasta chamada public
+- Copie os arquivos index.html
+		    style.css
+		    script.js
+
+Exemplo de estrutura abaixo:
+
+EX30
+CadastroPessoas/
+│
+├── package.json
+├── server.js
+│
+└── public/
+    │
+    ├── index.html
+    ├── style.css
+    └── script.js
+
+
+2 - Acessar o Xampp
+===================
+
+No Painel
+=========
+Iniciar o Apache
+Iniciar o MySQL
+
+
+3 - No VSCode:
+===============
+
+Executar no Bash:
+
+npm init -y
+npm install express mysql2
+
+Executar no Terminal (Bash)
+
+node server.js
+
