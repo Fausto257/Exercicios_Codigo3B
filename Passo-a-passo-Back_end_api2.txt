@@ -149,6 +149,105 @@ where nome like 'Ald%'*/
 /*INSERT INTO `pessoas`(`nome`, `idade`, `telefone`, `cidade`, `codigo_cidade`) VALUES ('Aldo 21',19,'93999393','São Paulo',1001);*/
 
 
+===================================== 03/09/02026 =============================
+
+
+    let sql =`SELECT
+            pessoas.id,
+            pessoas.nome,
+            pessoas.idade,
+            pessoas.telefone,
+            pessoas.cidade,
+            pessoas.codigo_cidade,
+            estados.sigla_estado,
+            pessoas.status
+
+        FROM pessoas
+
+        INNER JOIN estados
+            ON pessoas.codigo_cidade =
+               estados.codigo_cidade
+    `;
+
+===================================== 23/09/02026 =============================
+
+Objetivo: Criar 3 botões para o aplicativo de clima para as cidades de:
+- Curitiba
+- Belo Horizonte
+- Rio de Janeiro
+
+Passo:
+------
+
+- No projeto de CadastroPessoas
+
+1. No VsCode
+============
+
+Abrir o código: Index.html
+ --> copiar o código do clima para cada nova cidade, ou seja, 3 vezes
+
+2. Na internet
+==============
+  --> procurar a latitude e longitude de cada uma das cidades
+    - Curitiba
+    - Belo Horizonte
+    - Rio de Janeiro
+
+3. Na função consultarClima() 
+=============================
+--> acrescentar os parâmetros de latitude e longitude por exemplo (-5.4, -5.4)
+--> para cada chamada da função deve-se por as coordenadas de cada cidade
+
+4. No VSCode
+============
+- entrar no código script.js
+- Alterar a função do --> async function consultarClima() para receber os parâmetros de latitude e longitude.
+
+------ Alterar o que segue:
+
+
+async function consultarClima(latitude, longitude) {
+
+    const url =
+        "https://api.open-meteo.com/v1/forecast" +
+        `?latitude=${latitude}` +
+        `&longitude=${longitude}` +
+        "&current=temperature_2m,relative_humidity_2m,wind_speed_10m";
+
+    try {
+
+==========================================================================================
+
+
+2a. Parte
+=========
+
+Alterar o index.html
+====================
+
+<div class="botoes">
+    <button>Consultar clima de São Paulo</button>
+    <button>Consultar clima de Curitiba</button>
+    <button>Consultar clima do Rio de Janeiro</button>
+</div>
+
+
+Alterar o style.css
+===================
+.botoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+
+
+
+
+
+
 
 
 
